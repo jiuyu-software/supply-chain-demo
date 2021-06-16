@@ -58,8 +58,8 @@ export default {
       txHash: "",
       form: {
         chainId: "",
-        participaterId: ""
-      }
+        participaterId: "",
+      },
     };
   },
   created() {
@@ -69,7 +69,7 @@ export default {
     getSignData() {
       const id = getUserId();
 
-      getSignInfo(id).then(res => {
+      getSignInfo(id).then((res) => {
         this.signData = res.data;
         this.form.chainId = this.signData[0].chainId;
         this.form.participaterId = this.signData[0].roles[0].participaterId;
@@ -78,25 +78,25 @@ export default {
     },
     getRole(chainId) {
       const id = chainId;
-      this.signData.forEach(item => {
+      this.signData.forEach((item) => {
         if (item.chainId === id) {
           this.relationRole = item.roles;
-          this.form.participaterId = item.roles[0];
+          this.form.participaterId = item.roles[0].participaterId;
           return;
         }
       });
     },
     handleSigned() {
       const params = this.form;
-      addSign(params).then(res => {
+      addSign(params).then((res) => {
         if (res.code === 0) {
           const Tx_hash = res.data.txHash;
           this.txHash = Tx_hash;
           this.txHashdialogVisible = true;
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

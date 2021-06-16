@@ -46,7 +46,7 @@
                 </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="7">
               <el-form-item
                 label=""
                 :prop="'itemList.' + index + '.id'"
@@ -67,6 +67,13 @@
                   </template>
                 </el-select>
               </el-form-item>
+            </el-col>
+            <el-col :span="1">
+              <div style="padding-left:5px" v-if="!chain.isSelect">
+                <el-button type="text" @click="removeChain(chain)"
+                  >移除</el-button
+                >
+              </div>
             </el-col>
           </el-row>
           <!--  <el-button @click.prevent="removeChain(chain)">删除</el-button> -->
@@ -103,9 +110,7 @@ export default {
         desc: [{ required: true, message: "请输入描述", trigger: "blur" }],
         role: [{ required: true, message: "请输入角色", trigger: "blur" }],
         portion: [{ validator: isDecimal, trigger: "blur" }],
-        participaterId: [
-          { required: true, message: "请选择参与者", trigger: "blur" }
-        ]
+        id: [{ required: true, message: "请选择参与者", trigger: "blur" }],
       },
       test: "",
       roleList: [],
@@ -121,12 +126,12 @@ export default {
             itemId: this.createUuid(),
             levelOnChain: 0,
             isSelect: true,
-            participaterId: ""
-          }
+            participaterId: "",
+          },
         ],
         title: "",
-        userId: ""
-      }
+        userId: "",
+      },
     };
   },
   created() {
@@ -143,9 +148,9 @@ export default {
       const pId = getParticipaterId();
       this.dynamicValidateForm.userId = userId;
       this.preUuid = this.dynamicValidateForm.itemList[0].itemId;
-      getSelectList().then(res => {
+      getSelectList().then((res) => {
         this.roleList = res.data;
-        this.roleList.forEach(item => {
+        this.roleList.forEach((item) => {
           if (item.id == pId) {
             this.dynamicValidateForm.itemList[0].id = item.id;
           }
@@ -153,7 +158,7 @@ export default {
       });
     },
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           const data = this.dynamicValidateForm.itemList;
           let totalRatio = data.reduce((prev, cur) => {
@@ -163,26 +168,28 @@ export default {
           if (totalRatio !== 100) {
             this.$message({
               message: "请输入正确的份额",
-              type: "warning"
+              type: "warning",
             });
           } else {
             let arrayId = [];
-            data.forEach(item => {
+            data.forEach((item) => {
               arrayId.push(item.id);
             });
             const noRepeatId = [...new Set(arrayId)];
 
             if (arrayId.length === noRepeatId.length) {
-              this.dynamicValidateForm.itemList.forEach(item => {
+              this.dynamicValidateForm.itemList.forEach((item, index) => {
                 item.participaterId = item.id;
+                item.levelOnChain = index;
               });
-              createChain(this.dynamicValidateForm).then(res => {
+              console.log(this.dynamicValidateForm);
+              createChain(this.dynamicValidateForm).then((res) => {
                 if (res.code === 0) {
                   this.$confirm("提交成功", "提交成功", {
                     confirmButtonText: "返回",
                     type: "success",
                     showCancelButton: false,
-                    closeOnClickModal: false
+                    closeOnClickModal: false,
                   }).then(() => {
                     this.$router.push({ path: "/list" });
                   });
@@ -191,7 +198,7 @@ export default {
             } else {
               this.$message({
                 message: "参与者不能重复选择",
-                type: "error"
+                type: "error",
               });
               return;
             }
@@ -206,9 +213,17 @@ export default {
       this.$refs[formName].resetFields();
     },
     removeChain(item) {
-      var index = this.dynamicValidateForm.itemList.indexOf(item);
-      if (index !== -1) {
-        this.dynamicValidateForm.itemList.splice(index, 1);
+      const chainIndex = this.dynamicValidateForm.itemList.indexOf(item);
+      console.log(this.dynamicValidateForm.itemList.length - 1);
+      console.log(chainIndex);
+      if (chainIndex !== this.dynamicValidateForm.itemList.length - 1) {
+        const preItem = this.dynamicValidateForm.itemList[chainIndex - 1];
+        this.dynamicValidateForm.itemList[chainIndex + 1].lastItemId =
+          preItem.itemId;
+      }
+
+      if (chainIndex !== -1) {
+        this.dynamicValidateForm.itemList.splice(chainIndex, 1);
       }
     },
     addChain() {
@@ -216,15 +231,16 @@ export default {
         participaterId: "",
         role: "",
         portion: "",
-        levelOnChain: this.level++,
+        //levelOnChain: this.level++,
         itemId: this.createUuid(),
         lastItemId: this.preUuid,
-        isSelect: false
+        isSelect: false,
       });
       const preIndex = this.dynamicValidateForm.itemList.length - 1;
       this.preUuid = this.dynamicValidateForm.itemList[preIndex].itemId;
-    }
-  }
+      console.log(this.dynamicValidateForm.itemList);
+    },
+  },
 };
 </script>
 
