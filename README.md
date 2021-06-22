@@ -97,6 +97,14 @@ npm run
 ![image](https://user-images.githubusercontent.com/84694840/122877495-3e965b00-d369-11eb-9785-74ba8078d447.png)
 
 ![image](https://user-images.githubusercontent.com/84694840/122877755-85845080-d369-11eb-93c8-0d439a41d22b.png)
+### Contributors
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/freezehe"><img src="https://avatars.githubusercontent.com/u/11324122?s=64&v=4" width="100px;" alt=""/><br /><sub><b>皮卡丘的猫</b></sub></a><br /><a href="https://github.com/jiuyu-software/supply-chain-demo/commits?author=freezehe" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/shitou13"><img src="https://avatars.githubusercontent.com/u/20125300?s=64&v=4" width="100px;" alt=""/><br /><sub><b>shitou</b></sub></a><br /><a href="https://github.com/jiuyu-software/supply-chain-demo/commits?author=shitou13" title="Code">💻</a></td>
+  </tr>
+</table>
+
 ### 总结
 此供应链结算支付案例是基于fisco bcos平台开发的一个比较简单的DApp，后续扩展的功能包括 
 #### 1.分成代币合约自动处理，即各方确认完成之后，自动分成到各自账户
