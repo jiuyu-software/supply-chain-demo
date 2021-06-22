@@ -42,7 +42,91 @@ FISCO BCOS Supply Chain Payment Settlement Demo created by Shanghai JiuYu Softwa
     参考fisco bcos 官方提供的文档，详情请参见：https://webasedoc.readthedocs.io/zh_CN/latest/docs/WeBASE/install.html
    ##### 特别注意！！！
     该案例修改配置文件common.properties，是基于4.1.1 已搭建的四节点部署的。修改内容请参考fisco bcos文档。
-  ### 4.2 后端代码部署
+    
+### 4.2 WeBASE接入流程
+springboot pom.xml文件已经集成
+```
+   <dependency>
+			<groupId>com.webank</groupId>
+			<artifactId>webase-app-sdk</artifactId>
+			<version>1.5.1-SNAPSHOT</version>
+		</dependency>
+```
+登录WeBASE 管理平台，点击“应用管理”，若该案例已集成在webase，则选择模板，在注册信息里面可获得IP,Port,appKey,appSecret 相关信息，拿到这些信息会放到java配置文件application.properties
+![image](https://user-images.githubusercontent.com/84694840/122885274-8325f480-d371-11eb-97cd-cdca5237259d.png)
+
+#### 私钥管理
+该案例用户通过注册业务系统调用sdk的newUser方法在链上新建私钥用户，密钥默认托管模式
+```
+appClient.newUser(reqNewUser);
+```
+webase管理平台在私钥管理可以查看通过业务系统注册的用户相关信息
+![image](https://user-images.githubusercontent.com/84694840/122888084-195b1a00-d374-11eb-9332-90b3db59c98c.png)
+
+
+
+#### 合约同步和绑定
+合约部署调用的是webase 前置服务的1.2. 合约部署接口（结合WeBASE-Sign）
+```
+接口URL
+http://localhost:5002/WeBASE-Front/contract/deployWithSign
+
+调用方法
+HTTP POST
+
+请求参数
+1）参数表
+
+序号	中文	参数名	类型	最大长度	必填	说明
+1	所属群组	groupId	int		是	
+2	用户编号	signUserId	String	64	是	WeBASE-Sign中的用户编号，通过webase-sign创建私钥获取
+3	合约名称	contractName	String		是	
+4	合约abi	abiInfo	List		是	合约编译后生成的abi文件内容
+5	合约bin	bytecodeBin	String		是	合约编译的bytecode(bin)，用于部署合约
+6	构造函数参数	funcParam	List		否	合约构造函数所需参数，JSON数组，多个参数以逗号分隔（参数为数组时同理），如：["str1",["arr1","arr2"]]
+7	合约版本	version	String		否	用于指定合约在CNS中的版本
+```
+然后调用sdk 同步合约和保存地址接口，将合约相关信息同步到webase管理平台，在管理平台页面展示如下
+```
+## 合约同步
+appClient.contractSourceSave(reqContractSourceSave);
+
+## 合约地址绑定
+appClient.contractAddressSave(reqContractAddressSave);
+```
+
+
+![image](https://user-images.githubusercontent.com/84694840/122887563-9d60d200-d373-11eb-92fe-76d7aa6fb7a3.png)
+
+![image](https://user-images.githubusercontent.com/84694840/122887592-a487e000-d373-11eb-858f-8c7819477913.png)
+#### 发交易
+业务系统通过调用webase 前置服务的5.1. 交易处理接口（结合WeBASE-Sign）接口 将数据上链产生交易
+```
+接口URL
+http://localhost:5002/WeBASE-Front/trans/handleWithSign
+
+调用方法
+HTTP POST
+
+请求参数
+1）参数表
+
+序号	中文	参数名	类型	最大长度	必填	说明
+1	用户编号	signUserId	String	64	是	WeBASE-Sign用户编号（查询方法可不传）
+2	合约名称	contractName	String		是	
+3	合约地址	contractAddress	String		是	
+4	方法名	funcName	String		是	
+5	合约编译后生成的abi文件内容	contractAbi	List		是	合约中单个函数的ABI，若不存在同名函数可以传入整个合约ABI，格式：JSONArray
+6	方法参数	funcParam	List		否	JSON数组，多个参数以逗号分隔（参数为数组时同理），如：["str1",["arr1","arr2"]]
+7	群组ID	groupId	int		是	默认为1
+8	是否使用cns调用	useCns	bool		是	
+9	cns名称	cnsName	String		否	CNS名称，useCns为true时不能为空
+10	cns版本	version	String		否	CNS版本，useCns为true时不能为空
+```
+
+
+    
+  ### 4.3 后端代码部署
 后端代码是基于SpringBoot工程
 ``` 
 I. 拉取代码
@@ -56,14 +140,14 @@ III. 修改application.properties文件
 IV. 直接在IDE运行
 ```
 
-### 4.3 前端代码部署
+### 4.4 前端代码部署
 前端代码基于VUE编写
 ```
 进入frontend目录，修改配置文件vue.config.js，连接自己服务器IP
 npm install
 npm run 
 ```
-### 4.4 运行演示
+### 4.5 运行演示
 演示新建一条供应链有三级供应商，然后模拟支付分账
 #### 进入首页
 ![image](https://user-images.githubusercontent.com/84694840/122875283-a13a2780-d366-11eb-94f2-2039473583f2.png)
