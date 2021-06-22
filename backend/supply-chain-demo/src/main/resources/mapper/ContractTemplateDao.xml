@@ -9,6 +9,7 @@
         <result property="contractName" column="contract_name"/>
         <result property="contractAbi" column="contract_abi"/>
         <result property="contractBin" column="contract_bin"/>
+        <result property="contractBase64" column="contract_base64"/>
     </resultMap>
     
     <select id="queryByTemplate" parameterType="java.lang.String" resultType="com.jiuyv.supplychain.entity.ContractTemplateEntity">

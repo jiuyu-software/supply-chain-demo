@@ -54,6 +54,11 @@ import com.jiuyv.supplychain.vo.ResCheckSigners;
 import com.jiuyv.supplychain.vo.ResQueryRole;
 import com.jiuyv.supplychain.vo.ResSign;
 import com.jiuyv.supplychain.vo.ResSignList;
+import com.webank.webase.app.sdk.client.AppClient;
+import com.webank.webase.app.sdk.config.HttpConfig;
+import com.webank.webase.app.sdk.dto.req.ReqContractAddressSave;
+import com.webank.webase.app.sdk.dto.req.ReqContractSourceSave;
+import com.webank.webase.app.sdk.dto.req.ReqContractSourceSave.ContractSource;
 
 /**
  * 
@@ -91,15 +96,32 @@ public class ChainServiceImpl extends ServiceImpl<ChainDao, ChainEntity> impleme
 	@Value("${webase-front.trans.handle.url}")
 	private String webaseFrontTransHandleUrl;
 	
-	@Value("${erc20.supply.user.address}")
-	private String erc20SupplyuserAddress;
+	@Value("${erc20.supply.user.signUserId}")
+	private String erc20SupplySignUserId;
 	
 	@Value("${erc20.contract.address}")
 	private String erc20ContractAddress;
 	
 	@Value("${erc20.contract.name}")
 	private String erc20ContractName;
-
+	
+	@Value("${webase.node.mgr.url}")
+	private String url;
+	
+	@Value("${webase.node.mgr.appKey}")
+	private String appKey;
+	
+	@Value("${webase.node.mgr.appSecret}")
+	private String appSecret;
+	
+	@Value("${webase.node.mgr.isTransferEncrypt}")
+	private Boolean isTransferEncrypt;
+	
+	
+	private static final String ACCOUNT = "admin";
+	
+	private static final String CONTRACT_VERSION = "1.0.0";
+	
 	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public R newChain(ReqNewChain reqNewChain) {
@@ -108,7 +130,7 @@ public class ChainServiceImpl extends ServiceImpl<ChainDao, ChainEntity> impleme
 		// 已签名各供应方
 		List<Integer> signedParticipaterIds = new ArrayList<Integer>();
 		Date date = Date.from(Instant.now());
-		ParticipaterEntity poarticipaterEntity = participaterDao.queryByUserId(reqNewChain.getUserId());
+		ParticipaterEntity participaterEntity = participaterDao.queryByUserId(reqNewChain.getUserId());
 		// 1.落地chain表
 		ChainEntity entity = new ChainEntity();
 		entity.setUserId(reqNewChain.getUserId());
@@ -136,7 +158,7 @@ public class ChainServiceImpl extends ServiceImpl<ChainDao, ChainEntity> impleme
 			entity1.setPortion(reqChainItem.getPortion());
 			entity1.setRole(reqChainItem.getRole());
 			// 如果建链方跟供应方是同一人默认是签名的
-			if(poarticipaterEntity.getId() == participaterId){
+			if(participaterEntity.getId() == participaterId){
 				entity1.setIsSigned(SignFlagEnum.SIGNED.getSignFlag());
 				signedParticipaterIds.add(participaterId);
 			}else{
@@ -163,13 +185,25 @@ public class ChainServiceImpl extends ServiceImpl<ChainDao, ChainEntity> impleme
 		contractDeployReqBO.setAbiInfo(abiList);
 		contractDeployReqBO.setBytecodeBin(template.getContractBin());
 		contractDeployReqBO.setContractName(contractName);
+		contractDeployReqBO.setContractSource(template.getContractBase64());
+		contractDeployReqBO.setVersion(CONTRACT_VERSION);
 		List list = new ArrayList<>();
 		list.add(participaterAddrs);
 		contractDeployReqBO.setFuncParam(list);
-		contractDeployReqBO.setUser(poarticipaterEntity.getUserAddress());
+		//contractDeployReqBO.setUser(poarticipaterEntity.getUserAddress());
+		contractDeployReqBO.setSignUserId(participaterEntity.getSignUserId());
 		LOGGER.info("调用webase-front接口,url>>{},请求参数:>>{}",webaseFrontContractDeployUrl,JSONUtil.toJsonStr(contractDeployReqBO));
 		String response = HttpUtils.httpPostByJson(webaseFrontContractDeployUrl, JSONUtil.toJsonStr(contractDeployReqBO));
 		LOGGER.info("调用webase-front接口,响应结果reslut:>>{}",response);
+		
+		// TODO 调用webase-sdk 同步绑定
+		AppClient appClient = getAppClient();
+		callWebaseSdkContractSourceSave(appClient,contractDeployReqBO);
+		
+		callWebaseSdkContractAddressSave(appClient,contractDeployReqBO,response,participaterEntity.getNameOnWebase());
+		
+		
+		
 		// 3.2 落地contract表
 		ContractEntity contractEntity = new ContractEntity();
 		contractEntity.setAddr(response);
@@ -177,7 +211,7 @@ public class ChainServiceImpl extends ServiceImpl<ChainDao, ChainEntity> impleme
 		contractEntity.setContractName(contractName);
 		contractEntity.setContractDescribe(TypeEnum.EVIDENCE.getType());
 		contractEntity.setInsertedAt(date);
-		contractEntity.setOwnerDid(poarticipaterEntity.getDid());
+		contractEntity.setOwnerDid(participaterEntity.getDid());
 		contractEntity.setType(TypeEnum.EVIDENCE.getType());
 		contractEntity.setUpdatedAt(date);
 		contractDao.insert(contractEntity);
@@ -193,7 +227,8 @@ public class ChainServiceImpl extends ServiceImpl<ChainDao, ChainEntity> impleme
 		transHandleReqBO.setFuncParam(params);
 		transHandleReqBO.setGroupId(1);
 		transHandleReqBO.setUseCns(false);
-		transHandleReqBO.setUser(poarticipaterEntity.getUserAddress());
+		//transHandleReqBO.setUser(poarticipaterEntity.getUserAddress());
+		transHandleReqBO.setSignUserId(participaterEntity.getSignUserId());
 		LOGGER.info("调用webase-front接口,url>>{},请求参数:>>{}",webaseFrontTransHandleUrl,JSONUtil.toJsonStr(transHandleReqBO));
 		String resp = HttpUtils.httpPostByJson(webaseFrontTransHandleUrl, JSONUtil.toJsonStr(transHandleReqBO));
 		LOGGER.info("调用webase-front接口,响应结果reslut:>>{}",resp);
@@ -323,7 +358,8 @@ public class ChainServiceImpl extends ServiceImpl<ChainDao, ChainEntity> impleme
 		transHandleReqBO.setFuncParam(params);
 		transHandleReqBO.setGroupId(1);
 		transHandleReqBO.setUseCns(false);
-		transHandleReqBO.setUser(dbParticipaterEntity.getUserAddress());
+		//transHandleReqBO.setUser(dbParticipaterEntity.getUserAddress());
+		transHandleReqBO.setSignUserId(dbParticipaterEntity.getSignUserId());
 		LOGGER.info("调用webase-front接口,url>>{},请求参数:>>{}",webaseFrontTransHandleUrl,JSONUtil.toJsonStr(transHandleReqBO));
 		String resp = HttpUtils.httpPostByJson(webaseFrontTransHandleUrl, JSONUtil.toJsonStr(transHandleReqBO));
 		LOGGER.info("调用webase-front接口,响应结果reslut:>>{}",resp);
@@ -405,7 +441,7 @@ public class ChainServiceImpl extends ServiceImpl<ChainDao, ChainEntity> impleme
 			transHandleReqBO.setFuncParam(params);
 			transHandleReqBO.setGroupId(1);
 			transHandleReqBO.setUseCns(false);
-			transHandleReqBO.setUser(erc20SupplyuserAddress);
+			transHandleReqBO.setSignUserId(erc20SupplySignUserId);
 			LOGGER.info("调用webase-front接口,url>>{},请求参数:>>{}",webaseFrontTransHandleUrl,JSONUtil.toJsonStr(transHandleReqBO));
 			String resp = HttpUtils.httpPostByJson(webaseFrontTransHandleUrl, JSONUtil.toJsonStr(transHandleReqBO));
 			LOGGER.info("调用webase-front接口,响应结果reslut:>>{}",resp);
@@ -431,4 +467,39 @@ public class ChainServiceImpl extends ServiceImpl<ChainDao, ChainEntity> impleme
 	private Long calculateAmount(Long totalAmount,Integer portion){
 		return new BigDecimal(totalAmount).multiply(new BigDecimal(portion)).divide(new BigDecimal(100L)).longValue();
 	}
+	
+	private void callWebaseSdkContractSourceSave(AppClient appClient,ContractDeployReqBO contractDeployReqBO){
+		ReqContractSourceSave reqContractSourceSave = new ReqContractSourceSave();
+        reqContractSourceSave.setAccount(ACCOUNT);
+        reqContractSourceSave.setContractVersion(CONTRACT_VERSION);
+
+        List<ContractSource> contractList = new ArrayList<>();
+        ContractSource contractSource = new ContractSource();
+        contractSource.setContractName(contractDeployReqBO.getContractName());
+        contractSource.setContractSource(contractDeployReqBO.getContractSource());
+        contractSource.setContractAbi(JSONUtil.toJsonStr(contractDeployReqBO.getAbiInfo()));
+        contractSource.setBytecodeBin(contractDeployReqBO.getBytecodeBin());
+        contractList.add(contractSource);
+        reqContractSourceSave.setContractList(contractList);
+        LOGGER.info("调用WebaseSdk ContractSourceSave接口,请求参数:>>{}",JSONUtil.toJsonStr(reqContractSourceSave));
+        
+        appClient.contractSourceSave(reqContractSourceSave);
+	}
+	private void callWebaseSdkContractAddressSave(AppClient appClient,ContractDeployReqBO contractDeployReqBO,String contractAddr,String username){
+		ReqContractAddressSave reqContractAddressSave = new ReqContractAddressSave();
+        reqContractAddressSave.setGroupId(1);
+        reqContractAddressSave.setContractName(contractDeployReqBO.getContractName());
+        reqContractAddressSave.setContractPath(username);
+        reqContractAddressSave.setContractVersion(CONTRACT_VERSION);
+        reqContractAddressSave.setContractAddress(contractAddr);
+        LOGGER.info("调用WebaseSdk ContractSourceSave接口,请求参数:>>{}",JSONUtil.toJsonStr(reqContractAddressSave));
+        appClient.contractAddressSave(reqContractAddressSave);
+	}
+	
+	private AppClient getAppClient(){
+		HttpConfig httpConfig = new HttpConfig(30, 30, 30);
+        return new AppClient(url, appKey, appSecret, isTransferEncrypt, httpConfig);
+	}
+	
+
 }

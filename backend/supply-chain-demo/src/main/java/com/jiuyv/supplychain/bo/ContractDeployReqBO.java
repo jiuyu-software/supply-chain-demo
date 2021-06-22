@@ -29,6 +29,36 @@ public class ContractDeployReqBO implements Serializable{
 	
 	private List funcParam;
 	
+	private String signUserId;
+	
+	private String contractSource;
+	
+	private String version;
+	
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	public String getContractSource() {
+		return contractSource;
+	}
+
+	public void setContractSource(String contractSource) {
+		this.contractSource = contractSource;
+	}
+
+	public String getSignUserId() {
+		return signUserId;
+	}
+
+	public void setSignUserId(String signUserId) {
+		this.signUserId = signUserId;
+	}
+
 	public Integer getGroupId() {
 		return groupId;
 	}

@@ -34,6 +34,15 @@ public class ContractTemplateEntity implements Serializable {
 	 * 合约bin
 	 */
 	private String contractBin;
+	
+	private String contractBase64;
+	
+	public String getContractBase64() {
+		return contractBase64;
+	}
+	public void setContractBase64(String contractBase64) {
+		this.contractBase64 = contractBase64;
+	}
 	public Integer getId() {
 		return id;
 	}

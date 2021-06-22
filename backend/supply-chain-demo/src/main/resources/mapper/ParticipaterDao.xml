@@ -16,6 +16,7 @@
 		<result property="balance" column="balance" />
 		<result property="nameOnWebase" column="name_on_webase" />
 		<result property="userAddress" column="user_address" />
+		<result property="signUserId" column="sign_user_id"/>
 
 
 	</resultMap>

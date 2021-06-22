@@ -17,6 +17,8 @@ public class TransHandleReqBO implements Serializable{
 	 */
 	private static final long serialVersionUID = 5018824626389729107L;
 	
+	private String signUserId;
+	
 	private String user;
 	
 	private String contractName;
@@ -32,6 +34,14 @@ public class TransHandleReqBO implements Serializable{
 	private Integer groupId;
 	
 	private Boolean useCns;
+	
+	public String getSignUserId() {
+		return signUserId;
+	}
+
+	public void setSignUserId(String signUserId) {
+		this.signUserId = signUserId;
+	}
 
 	public String getUser() {
 		return user;

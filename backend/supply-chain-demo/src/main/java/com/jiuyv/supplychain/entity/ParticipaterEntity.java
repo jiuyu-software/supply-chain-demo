@@ -59,6 +59,18 @@ public class ParticipaterEntity implements Serializable {
 	 */
 	private String userAddress;
 	
+	/**
+	 * 链上signUserId
+	 */
+	private String signUserId;
+	
+	public String getSignUserId() {
+		return signUserId;
+	}
+	public void setSignUserId(String signUserId) {
+		this.signUserId = signUserId;
+	}
+	
 	public String getUserAddress() {
 		return userAddress;
 	}
