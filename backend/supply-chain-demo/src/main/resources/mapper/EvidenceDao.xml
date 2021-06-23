@@ -20,6 +20,10 @@
     <select id="queryByContractId" parameterType="java.lang.Integer" resultType="com.jiuyv.supplychain.entity.EvidenceEntity">
     	select * from evidence where contract_id = #{contractId}
     </select>
+    
+    <select id="queryByParticipaterId" parameterType="java.lang.String" resultType="com.jiuyv.supplychain.entity.EvidenceEntity">
+    	SELECT * FROM evidence t WHERE JSON_CONTAINS(t.`owners`,#{participaterId})
+    </select>
 
 
 </mapper>

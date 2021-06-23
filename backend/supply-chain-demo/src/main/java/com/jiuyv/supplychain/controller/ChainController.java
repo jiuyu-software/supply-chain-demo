@@ -31,8 +31,12 @@ public class ChainController {
     	return chainService.newChain(reqNewChain);
     }
     @GetMapping("/{userId}")
-    public R getIndexInfo(@PathVariable("userId") Integer userId){
-    	return chainService.getIndexInfo(userId);
+    public R getIndexNewInfo(@PathVariable("userId") Integer userId){
+    	return chainService.getIndexNewInfo(userId);
+    }
+    @GetMapping("/join/{userId}")
+    public R getIndexJoinInfo(@PathVariable("userId") Integer userId){
+    	return chainService.getIndexJoinInfo(userId);
     }
     @GetMapping("/checkSign/{chainId}")
     public R checkSignStatus(@PathVariable("chainId") Integer chainId){
