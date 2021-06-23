@@ -130,7 +130,6 @@ public class ChainServiceImpl extends ServiceImpl<ChainDao, ChainEntity> impleme
 	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public R newChain(ReqNewChain reqNewChain) {
-		
 		// 建链需签名各供应方
 		List<String> participaterAddrs = new ArrayList<String>();
 		// 已签名各供应方
