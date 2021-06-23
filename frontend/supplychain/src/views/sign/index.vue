@@ -15,7 +15,7 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="角色选择">
+      <!-- <el-form-item label="角色选择">
         <el-select v-model="form.participaterId" placeholder="角色选择">
           <el-option
             v-for="item in relationRole"
@@ -24,7 +24,7 @@
             :key="item.participaterId"
           />
         </el-select>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item>
         <el-button type="primary" @click="handleSigned">提交</el-button>
         <el-button>取消</el-button>
@@ -47,7 +47,7 @@
 
 <script>
 import { getSignInfo, addSign } from "@/api/table";
-import { getUserId } from "@/utils/auth";
+import { getUserId, getParticipaterId } from "@/utils/auth";
 
 export default {
   data() {
@@ -72,8 +72,8 @@ export default {
       getSignInfo(id).then((res) => {
         this.signData = res.data;
         this.form.chainId = this.signData[0].chainId;
-        this.form.participaterId = this.signData[0].roles[0].participaterId;
-        this.relationRole = this.signData[0].roles;
+        //this.form.participaterId = this.signData[0].roles[0].participaterId;
+        // this.relationRole = this.signData[0].roles;
       });
     },
     getRole(chainId) {
@@ -87,6 +87,8 @@ export default {
       });
     },
     handleSigned() {
+      const Pid = getParticipaterId();
+      this.form.participaterId = parseInt(Pid);
       const params = this.form;
       addSign(params).then((res) => {
         if (res.code === 0) {
