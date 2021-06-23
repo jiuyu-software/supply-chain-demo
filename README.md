@@ -170,15 +170,17 @@ npm run
 ### 4.5 运行演示
 演示新建一条供应链有三级供应商，然后模拟支付分账
 #### 进入首页
-![image](https://user-images.githubusercontent.com/84694840/122875283-a13a2780-d366-11eb-94f2-2039473583f2.png)
+![image](https://user-images.githubusercontent.com/11324122/123060742-98685500-d43d-11eb-9992-1541a3b849d7.png)
+
 #### 注册
 注册三个账户，zhangsan0623,lisi0623,wangwu0623
 ![image](https://user-images.githubusercontent.com/84694840/122876368-03475c80-d368-11eb-8f13-e3afe0ddf321.png)
 
-#### 登录
-![image](https://user-images.githubusercontent.com/84694840/122876209-cf6c3700-d367-11eb-9497-8bc7933b9c9a.png)
+#### 登录 默认打开的是“自建链列表”，“参与链列表”是自己参与别人也包括自己的列表信息
+![image](https://user-images.githubusercontent.com/11324122/123061022-d36a8880-d43d-11eb-894e-89394fde2320.png)
 
-#### 建链
+
+#### 建链,在“自建链列表”新建链
 ![image](https://user-images.githubusercontent.com/84694840/122876594-46a1cb00-d368-11eb-9faf-5d708f68c710.png)
 
 #### 查看链状态&&链签名
@@ -189,7 +191,8 @@ npm run
 
 #### 模拟各方签名
 已签名的无须重复签名，此案例功能为权限控制，各方仅能签名自己组织。
-![image](https://user-images.githubusercontent.com/84694840/122877148-dcd5f100-d368-11eb-89f5-6227c3f4effe.png)
+![image](https://user-images.githubusercontent.com/11324122/123061430-39571000-d43e-11eb-9200-c7db118c97c4.png)
+
 ![image](https://user-images.githubusercontent.com/84694840/122877176-e65f5900-d368-11eb-851b-e20b31f15c40.png)
 
 #### 各方签名确认完成，模拟支付
