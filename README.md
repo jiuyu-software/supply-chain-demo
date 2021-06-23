@@ -73,7 +73,8 @@ springboot pom.xml文件已经集成
 		</dependency>
 ```
 登录WeBASE 管理平台，点击“应用管理”，若该案例已集成在webase，则选择模板，在注册信息里面可获得IP,Port,appKey,appSecret 相关信息，拿到这些信息会放到java配置文件application.properties
-![image](https://user-images.githubusercontent.com/84694840/122885274-8325f480-d371-11eb-97cd-cdca5237259d.png)
+![image](https://user-images.githubusercontent.com/11324122/123073019-9fe12b80-d448-11eb-8e0d-5b4857cc01fa.png)
+
 
 #### 私钥管理
 该案例用户通过注册业务系统调用sdk的newUser方法在链上新建私钥用户，密钥默认托管模式
@@ -116,7 +117,8 @@ appClient.contractAddressSave(reqContractAddressSave);
 ```
 
 
-![image](https://user-images.githubusercontent.com/84694840/122887563-9d60d200-d373-11eb-92fe-76d7aa6fb7a3.png)
+![image](https://user-images.githubusercontent.com/11324122/123070553-71fae780-d446-11eb-89c7-743f5e70d3b5.png)
+
 
 ![image](https://user-images.githubusercontent.com/84694840/122887592-a487e000-d373-11eb-858f-8c7819477913.png)
 #### 发交易
