@@ -33,7 +33,27 @@ FISCO BCOS Supply Chain Payment Settlement Demo created by Shanghai JiuYu Softwa
 普通C端用户也可以作为节点，对于消费产品之后，链上的各方签名确认以后，自动分成结算（还在探索业务模式中）
 
 ## 3. 系统架构
-![供应链金融 (1)](https://user-images.githubusercontent.com/84694840/122867890-d17cc880-d35c-11eb-9524-52d8dc60ed43.jpg)
+![供应链金融](https://user-images.githubusercontent.com/11324122/123046786-1c671080-d42f-11eb-9683-ac407d338e22.jpg)
+###  3.1 抽象系统层
+```
+抽象系统层描述的是底层合约层，主要涉及两部分合约，第一部分合约是存证合约，用于存储新建一条完整供应链的信息，主要存储各级供应商分成比例信息，将这部分信息上链；
+  然后包括各方签名功能，多方签名确认后才可以进行分成，本案例模拟支付将由积分下发模式来进行演示。
+  第二部分合约是积分合约，主要作用是供应链多方确认完成，模拟支付的时候用来积分下发的，积分是预分配的模式来进行管理的。也就是需要在webase管理平台编译部署好积分合约，然后
+  新建一个私钥账户，通过给该账户分配积分（比如999999999），然后在此案例中模拟支付的功能里，分配的积分就是从该账户里扣除下发到各级供应商的。
+
+```
+
+###  3.2 具体业务层
+  #### 新建供应链流程图
+  ![新建供应链](https://user-images.githubusercontent.com/11324122/123050128-f04d8e80-d432-11eb-9228-69acb6cc0478.jpg)
+
+  #### 多方签名流程图
+  ![多方签名](https://user-images.githubusercontent.com/11324122/123050155-f8a5c980-d432-11eb-9427-322d25887e8c.jpg)
+
+  #### 模拟支付流程图
+  ![积分下发](https://user-images.githubusercontent.com/11324122/123050170-fd6a7d80-d432-11eb-99ae-4495540bfb40.jpg)
+
+
 ## 4. 程序运行
   ### 4.1 前置工作
     4.1.1 搭建单群组四节点区块链网络环境
@@ -168,7 +188,7 @@ npm run
 ![image](https://user-images.githubusercontent.com/84694840/122876944-a8623500-d368-11eb-8952-b99cef825d6f.png)
 
 #### 模拟各方签名
-已签名的无须重复签名，后续扩展功能为权限控制，各方仅能签名自己组织，案例设计简单可由一个人签名。
+已签名的无须重复签名，此案例功能为权限控制，各方仅能签名自己组织。
 ![image](https://user-images.githubusercontent.com/84694840/122877148-dcd5f100-d368-11eb-89f5-6227c3f4effe.png)
 ![image](https://user-images.githubusercontent.com/84694840/122877176-e65f5900-d368-11eb-851b-e20b31f15c40.png)
 
