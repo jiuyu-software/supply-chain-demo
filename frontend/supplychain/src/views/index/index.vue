@@ -4,7 +4,7 @@
       <div class="index-top">
         <div class="content">
           <div class="logo">
-            <i class="icon">ssc</i>基于区块链的供应链管理结算平台
+            <i class="icon">sspss</i>基于区块链的供应链支付结算管理平台
           </div>
           <div class="btn-right">
             <router-link to="/login">登录</router-link>
@@ -15,8 +15,8 @@
       </div>
       <div class="index-banner">
         <div class="slogan">
-          <h3>Super Supply Chain</h3>
-          <div class="summary">基于区块链的供应链管理结算平台</div>
+          <h3>Supply Chain Payment Settlement System</h3>
+          <div class="summary">基于区块链的供应链支付结算管理平台</div>
         </div>
       </div>
       <div class="index-content">
@@ -31,7 +31,7 @@
       </div>
     </div>
     <div class="copyright">
-      CopyRight ©2020 Super Supply Chain All Rights Reserved
+      CopyRight © 2021 上海久誉软件系统有限公司
     </div>
   </div>
 </template>
@@ -43,8 +43,8 @@ export default {
     return {
       signData: {
         totalChains: "",
-        totalUsers: ""
-      }
+        totalUsers: "",
+      },
     };
   },
   created() {
@@ -52,12 +52,12 @@ export default {
   },
   methods: {
     getData() {
-      getTotalInfo().then(res => {
+      getTotalInfo().then((res) => {
         const { data } = res;
         this.signData = data;
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
