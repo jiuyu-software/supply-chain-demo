@@ -73,7 +73,8 @@ springboot pom.xml文件已经集成
 		</dependency>
 ```
 登录WeBASE 管理平台，点击“应用管理”，若该案例已集成在webase，则选择模板，在注册信息里面可获得IP,Port,appKey,appSecret 相关信息，拿到这些信息会放到java配置文件application.properties
-![image](https://user-images.githubusercontent.com/11324122/123073019-9fe12b80-d448-11eb-8e0d-5b4857cc01fa.png)
+![image](https://user-images.githubusercontent.com/11324122/123208054-fc982100-d4f0-11eb-8bb8-cc808ca9a591.png)
+
 
 
 #### 私钥管理
