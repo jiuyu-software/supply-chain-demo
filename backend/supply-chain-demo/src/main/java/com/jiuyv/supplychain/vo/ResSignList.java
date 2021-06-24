@@ -1,6 +1,5 @@
 package com.jiuyv.supplychain.vo;
 
-import java.util.List;
 
 /**
  * <p>Title: ResSignList</p>
@@ -19,10 +18,6 @@ public class ResSignList {
 	 */
 	private String title;
 	
-	/**
-	 * 角色list
-	 */
-	private List<ResQueryRole> roles;
 
 	public Integer getChainId() {
 		return chainId;
@@ -40,13 +35,38 @@ public class ResSignList {
 		this.title = title;
 	}
 
-	public List<ResQueryRole> getRoles() {
-		return roles;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((chainId == null) ? 0 : chainId.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		return result;
 	}
 
-	public void setRoles(List<ResQueryRole> roles) {
-		this.roles = roles;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ResSignList other = (ResSignList) obj;
+		if (chainId == null) {
+			if (other.chainId != null)
+				return false;
+		} else if (!chainId.equals(other.chainId))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		return true;
 	}
+
+	
 
 	
 	

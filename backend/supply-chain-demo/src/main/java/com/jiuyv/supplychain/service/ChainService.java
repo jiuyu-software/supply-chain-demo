@@ -23,11 +23,18 @@ public interface ChainService extends IService<ChainEntity> {
 	R newChain(ReqNewChain reqNewChain);
 	
 	/**
-	 * 获取登录成功后首页链信息
+	 * 获取登录成功后首页自己建的链信息
 	 * @param userId
 	 * @return
 	 */
-	R getIndexInfo(Integer userId);
+	R getIndexNewInfo(Integer userId);
+	
+	/**
+	 * 获取登录成功后参与的链信息
+	 * @param userId
+	 * @return
+	 */
+	R getIndexJoinInfo(Integer userId);
 	
 	/**
 	 * 校验供应商验签

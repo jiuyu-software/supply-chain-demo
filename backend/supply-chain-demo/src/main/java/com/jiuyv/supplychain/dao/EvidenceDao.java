@@ -1,5 +1,7 @@
 package com.jiuyv.supplychain.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,5 +23,12 @@ public interface EvidenceDao extends BaseMapper<EvidenceEntity> {
 	 * @return
 	 */
 	EvidenceEntity queryByContractId(@Param("contractId") Integer contractId);
+
+	/**
+	 * 根据参与者id查询存证信息
+	 * @param participaterId
+	 * @return
+	 */
+	List<EvidenceEntity> queryByParticipaterId(@Param("participaterId") String participaterId);
 	
 }

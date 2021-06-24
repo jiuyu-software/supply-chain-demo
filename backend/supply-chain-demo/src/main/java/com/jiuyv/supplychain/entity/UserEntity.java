@@ -42,6 +42,7 @@ public class UserEntity implements Serializable {
 	 * 参与者id
 	 */
 	private Integer participaterId;
+	
 	public Integer getId() {
 		return id;
 	}
