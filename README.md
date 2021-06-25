@@ -14,17 +14,30 @@ FISCO BCOS Supply Chain Payment Settlement Demo created by Shanghai JiuYu Softwa
 
 ## 1. 解决痛点
 
-供应链金融的服务对象主要为中小企业，比较常见的是应收账款质押贷款或订单融资。作为应收账款付款人的核心企业，其资信好、付款能力强，违约风险较低，所以中小企业将应收账款或订单向银行作为还款保证，其授信额度和融资成本自然也会下降。
-供应链金融围绕三个主体：供应商、核心企业和经销商。它依托于产业供应链核心企业，对单个企业或上下游多个企业提供全面金融服务，以促进供应链上核心企业及上下游配套企业「产-供-销」链条的稳固和流转顺畅，降低整个供应链运作成本。并且，通过金融资本与实业经济的协作，能够构建银行、企业和供应链互利共存的产业生态。目前存在的问题是回款慢，导致下游的小的供应商不能及时拿到尾款导致资金断链。
+供应链金融的服务对象主要为中小企业，比较常见的是应收账款质押贷款或订单融资。
 
+作为应收账款付款人的核心企业，其资信好、付款能力强，违约风险较低，所以中小企业将应收账款或订单向银行作为还款保证，其授信额度和融资成本自然也会下降。
+
+供应链金融围绕三个主体：**供应商、核心企业和经销商**。
+
+它依托于产业供应链核心企业，对单个企业或上下游多个企业提供全面金融服务，以促进供应链上核心企业及上下游配套企业「产-供-销」链条的稳固和流转顺畅，降低整个供应链运作成本。并且，通过金融资本与实业经济的协作，能够构建银行、企业和供应链互利共存的产业生态。
+
+目前存在的问题是回款慢，导致下游的小的供应商不能及时拿到尾款导致资金断链。
 
 ## 2. 设计理念
-基于区块链的供应链金融和贸易金融是基于分布式网络改造现有的大规模协作流程的典型。区块链可以缓解信息不对称的问题，十分适合供应链金融的发展。供应链中商品从卖家到买家伴随着货币支付活动，在高信贷成本和企业现金流需求的背景下，金融服务公司提供商品转移和货款支付保障。供应链溯源防伪、交易验真、及时清算的特点将解决现有贸易金融网络中的诸多痛点，塑造下一代供应链金融的基础设施。
+
+基于区块链的供应链金融和贸易金融是基于分布式网络改造现有的大规模协作流程的典型。区块链可以缓解信息不对称的问题，十分适合供应链金融的发展。
+
+供应链中商品从卖家到买家伴随着货币支付活动，在高信贷成本和企业现金流需求的背景下，金融服务公司提供商品转移和货款支付保障。供应链溯源防伪、交易验真、及时清算的特点将解决现有贸易金融网络中的诸多痛点，塑造下一代供应链金融的基础设施。
+
 简单来说，供应链就是一系列交易节点，它连接着产品从供应端到销售端或终端的全过程。从生产到销售，产品历经了供应链的多个环节，有了区块链技术，交易就会被永久性、去中心化地记录，这降低了时间延误、成本和人工错误。
+
 ### 新型的纯线上供应链金融服务模式：
 基于FISCO BCOS区块链技术，以核心企业为中心，以实际贸易背景为基础，为核心企业上下游提供融资金融服务。
+
 ### 线上供应链金融生态圈：
 平台依托区块链一系列新型金融科技技术与产业经济的深度融合，通过核心企业汇聚1-N级供应商，引入合作银行等外部金融机构，共同构建及维护完整的线上供应链生态圈。
+
 ### 本案例试用场景可在两个模式下进行探索
 
 #### 1）银行作为资金托管方
@@ -34,11 +47,12 @@ FISCO BCOS Supply Chain Payment Settlement Demo created by Shanghai JiuYu Softwa
 
 ## 3. 系统架构
 ![供应链金融](https://user-images.githubusercontent.com/11324122/123046786-1c671080-d42f-11eb-9683-ac407d338e22.jpg)
+
 ###  3.1 抽象系统层
 ```
 抽象系统层描述的是底层合约层，主要涉及两部分合约，第一部分合约是存证合约，用于存储新建一条完整供应链的信息，主要存储各级供应商分成比例信息，将这部分信息上链；
   然后包括各方签名功能，多方签名确认后才可以进行分成，本案例模拟支付将由积分下发模式来进行演示。
-  第二部分合约是积分合约，主要作用是供应链多方确认完成，模拟支付的时候用来积分下发的，积分是预分配的模式来进行管理的。也就是需要在webase管理平台编译部署好积分合约，然后
+  第二部分合约是积分合约，主要作用是供应链多方确认完成，模拟支付的时候用来积分下发的，积分是预分配的模式来进行管理的。也就是需要在WeBASE管理平台编译部署好积分合约，然后
   新建一个私钥账户，通过给该账户分配积分（比如999999999），然后在此案例中模拟支付的功能里，分配的积分就是从该账户里扣除下发到各级供应商的。
 
 ```
@@ -55,40 +69,53 @@ FISCO BCOS Supply Chain Payment Settlement Demo created by Shanghai JiuYu Softwa
 
 
 ## 4. 程序运行
-  ### 4.1 前置工作
-    4.1.1 搭建单群组四节点区块链网络环境
-    参考fisco bcos 官方提供的文档，详情请参见：https://fisco-bcos-documentation.readthedocs.io/zh_CN/latest/docs/installation.html
-    4.1.2 一键部署WeBASE
-    参考fisco bcos 官方提供的文档，详情请参见：https://webasedoc.readthedocs.io/zh_CN/latest/docs/WeBASE/install.html
-   ##### 特别注意！！！
-    该案例修改配置文件common.properties，是基于4.1.1 已搭建的四节点部署的。修改内容请参考fisco bcos文档。
+
+### 4.1 前置工作
+首先需要搭建FISCO BCOS链与WeBASE服务，本案例将搭建FISCO BCOS 4节点的链后，再通过WeBASE一键部署搭建WeBASE服务
+
+##### 4.1.1 搭建单群组四节点区块链网络环境
+参考fisco bcos 官方提供的[文档](https://fisco-bcos-documentation.readthedocs.io/zh_CN/latest/docs/installation.html)，详情请参见：https://fisco-bcos-documentation.readthedocs.io/zh_CN/latest/docs/installation.html
+
+##### 4.1.2 一键部署WeBASE
+参考WeBASE官方提供的[文档](https://webasedoc.readthedocs.io/zh_CN/latest/docs/WeBASE/install.html)，详情请参见：https://webasedoc.readthedocs.io/zh_CN/latest/docs/WeBASE/install.html
+- **特别注意**！！！
+部署WeBASE时是基于4.1.1 已搭建的四节点部署的，注意修改一键部署的配置文件`common.properties`中修改`if.exist.fisco=yes`来使用4.1.1搭建的链。
     
 ### 4.2 WeBASE接入流程
-springboot pom.xml文件已经集成
+
+##### 引入webase-app-sdk
+本案例使用WeBASE提供的应用接入SDK`webase-app-sdk`接入WeBASE，在本案例的springboot pom.xml文件中已经集成
 ```
-   <dependency>
-			<groupId>com.webank</groupId>
-			<artifactId>webase-app-sdk</artifactId>
-			<version>1.5.1-SNAPSHOT</version>
-		</dependency>
+<dependency>
+	<groupId>com.webank</groupId>
+	<artifactId>webase-app-sdk</artifactId>
+	<version>1.5.1-SNAPSHOT</version>
+</dependency>
 ```
-登录WeBASE 管理平台，点击“应用管理”，若该案例已集成在webase，则选择模板，在注册信息里面可获得IP,Port,appKey,appSecret 相关信息，拿到这些信息会放到java配置文件application.properties
+
+##### 获取WeBASE应用接入配置
+我们可以登录WeBASE 管理平台获取应用接入的配置信息
+
+点击“应用管理”，若该案例已集成在WeBASE，则选择模板，在注册信息里面可获得IP,Port,appKey,appSecret 相关信息，拿到这些信息会放到java配置文件本案例中的application.properties
 ![image](https://user-images.githubusercontent.com/11324122/123208054-fc982100-d4f0-11eb-8bb8-cc808ca9a591.png)
 
+在配置了上述信息后，只要启动本案例的前后端服务，即完成了供应链服务i接入WeBASE的操作，在WeBASE的“应用管理”中访问本案例的管理页面
 
+### 通过WeBASE管理私钥与合约
+在上述的应用接入后，本案例的供应链服务可以通过WeBASE进行私钥创建、托管，也可以通过WeBASE管理合约。
 
 #### 私钥管理
 该案例用户通过注册业务系统调用sdk的newUser方法在链上新建私钥用户，密钥默认托管模式
 ```
 appClient.newUser(reqNewUser);
 ```
-webase管理平台在私钥管理可以查看通过业务系统注册的用户相关信息
+WeBASE管理平台在私钥管理可以查看通过业务系统注册的用户相关信息
 ![image](https://user-images.githubusercontent.com/84694840/122888084-195b1a00-d374-11eb-9332-90b3db59c98c.png)
 
 
 
 #### 合约同步和绑定
-合约部署调用的是webase 前置服务的1.2. 合约部署接口（结合WeBASE-Sign）
+合约部署调用的是WeBASE 前置服务的1.2. 合约部署接口（结合WeBASE-Sign）
 ```
 接口URL
 http://localhost:5002/WeBASE-Front/contract/deployWithSign
@@ -108,7 +135,7 @@ HTTP POST
 6	构造函数参数	funcParam	List		否	合约构造函数所需参数，JSON数组，多个参数以逗号分隔（参数为数组时同理），如：["str1",["arr1","arr2"]]
 7	合约版本	version	String		否	用于指定合约在CNS中的版本
 ```
-然后调用sdk 同步合约和保存地址接口，将合约相关信息同步到webase管理平台，在管理平台页面展示如下
+然后调用sdk 同步合约和保存地址接口，将合约相关信息同步到WeBASE管理平台，在管理平台页面展示如下
 ```
 ## 合约同步
 appClient.contractSourceSave(reqContractSourceSave);
@@ -122,8 +149,9 @@ appClient.contractAddressSave(reqContractAddressSave);
 
 
 ![image](https://user-images.githubusercontent.com/84694840/122887592-a487e000-d373-11eb-858f-8c7819477913.png)
+
 #### 发交易
-业务系统通过调用webase 前置服务的5.1. 交易处理接口（结合WeBASE-Sign）接口 将数据上链产生交易
+业务系统通过调用WeBASE 前置服务的5.1. 交易处理接口（结合WeBASE-Sign）接口 将数据上链产生交易
 ```
 接口URL
 http://localhost:5002/WeBASE-Front/trans/handleWithSign
@@ -149,7 +177,7 @@ HTTP POST
 
 
     
-  ### 4.3 后端代码部署
+### 4.3 后端代码部署
 后端代码是基于SpringBoot工程
 ``` 
 I. 拉取代码
