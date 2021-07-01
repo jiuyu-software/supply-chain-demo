@@ -239,6 +239,7 @@ webase.node.mgr.appIp=127.0.0.1
 # 本案例的前端访问端口
 webase.node.mgr.appPort=9528
 # 本案例的在浏览器中访问的URL，若浏览器在非同机访问，则访问的是公网IP(以127.0.0.2为例)。使用域名则访问的是域名
+# 需要与下文前端服务的配置IP端口一致
 webase.node.mgr.appLink=https://127.0.0.2:9528
 
 
@@ -296,11 +297,53 @@ tail -f logs/log/supply-chain-demo.log
 
 ### 4.4 前端代码部署
 前端代码基于VUE编写
+
+#### 修改前端项目配置
+进入`frontend/supplychain`目录，修改配置文件`vue.config.js`中`proxy`，连接上文的backend后端服务
+
+```Bash
+cd frontend/supplychain
+vi vue.config.js
 ```
-进入frontend目录，修改配置文件vue.config.js，连接自己服务器IP
+
+```
+# 以同机运行为例，后端服务为8080端口
+# 修改target的url
+    proxy: {
+      // change xxx-api/login => mock/login
+      // detail: https://cli.vuejs.org/config/#devserver-proxy
+      [process.env.VUE_APP_BASE_API]: {
+//        target: "http://**.**.**.**:**",
+        target: "http://127.0.0.1:8080",
+        changeOrigin: true,
+        pathRewrite: {
+          ["^" + process.env.VUE_APP_BASE_API]: "",
+        },
+      },
+    },
+
+```
+
+#### 2 编译并运行
+```Bash
+# 安装前端依赖包
 npm install
-npm run 
+# 运行
+npm run dev
+# 运行成功后显示
+  App running at:
+    - Local:   http://localhost:9528 
+    - Network: http://127.0.0.2:9528 # 127.0.0.2为内网或公网IP
+
+    Note that the development build is not optimized.
+    To create a production build, run npm run build.
 ```
+
+至此，前端的运行成功了，我们可以通过在浏览器中访问`http://127.0.0.2:9528`即可访问
+- **此处浏览器访问的URL和上文后端服务中配置的appLink需保持一致**
+- 如果通过`npm build` + nginx重定向的方式加载前端，需要修改nginx.conf中访问后端服务的IP端口，并对外暴露9528端口即可。
+
+
 ### 4.5 运行演示
 演示新建一条供应链有三级供应商，然后模拟支付分账
 #### 进入首页
