@@ -489,7 +489,7 @@ HTTP POST
   <tr>
     <td align="center"><a href="https://github.com/freezehe"><img src="https://avatars.githubusercontent.com/u/11324122?s=64&v=4" width="100px;" alt=""/><br /><sub><b>皮卡丘的猫</b></sub></a><br /><a href="https://github.com/jiuyu-software/supply-chain-demo/commits?author=freezehe" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/shitou13"><img src="https://avatars.githubusercontent.com/u/20125300?s=64&v=4" width="100px;" alt=""/><br /><sub><b>shitou</b></sub></a><br /><a href="https://github.com/jiuyu-software/supply-chain-demo/commits?author=shitou13" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/codingcattwo"><img src="https://avatars.githubusercontent.com/u/20125300?s=64&v=4" width="100px;" alt=""/><br /><sub><b>shitou</b></sub></a><br /><a href="https://github.com/jiuyu-software/supply-chain-demo/commits?author=codingcattwo" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/codingcattwo"><img src="https://avatars.githubusercontent.com/u/28867867?v=4" width="100px;" alt=""/><br /><sub><b>codingcattwo</b></sub></a><br /><a href="https://github.com/jiuyu-software/supply-chain-demo/commits?author=codingcattwo" title="Code">💻</a></td>
   </tr>
 </table>
 
