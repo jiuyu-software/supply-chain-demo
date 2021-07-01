@@ -182,6 +182,7 @@ cat erc20.sol
 
 将合约内容复制记录，随后到WeBASE中部署
 
+**进入WeBASE管理台**
 - 创建WeBASE私钥：在“私钥管理”中创建一个新的私钥用户，记录其signUserId，如：d0fb7d6c9fa04ef484e10f4bf5b34426
 - WeBASE的“合约管理-合约IDE”中，创建erc20的合约，粘贴上文的erc20.sol内容，并编译，部署合约，记录合约地址，如：0xbbac4362f59a8ffe78ef4585460e9236c02b6c48
 
@@ -206,7 +207,7 @@ spring.application.name=supply-chain-demo
 server.port=8080  # 服务默认端口，若修改，需要在前端访问后端时对应修改
 
 spring.datasource.username=dbUserName     # mysql用户
-spring.datasource.password=dbPassword     # mysql密
+spring.datasource.password=dbPassword     # mysql密码
 spring.datasource.url=jdbc:mysql://127.0.0.1:3306/supplychain 
 spring.datasource.type=com.zaxxer.hikari.HikariDataSource
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
@@ -239,7 +240,7 @@ webase.node.mgr.appIp=127.0.0.1
 # 本案例的前端访问端口
 webase.node.mgr.appPort=9528
 # 本案例的在浏览器中访问的URL，若浏览器在非同机访问，则访问的是公网IP(以127.0.0.2为例)。使用域名则访问的是域名
-# 需要与下文前端服务的配置IP端口一致
+# 需要与下文前端服务的访问IP端口一致
 webase.node.mgr.appLink=https://127.0.0.2:9528
 
 
@@ -281,10 +282,12 @@ cd backend/supply-chain-demo
 # maven 编译
 mvn clean package -Dmaven.test.skip=true
 ```
-打包完成后会得到`target目录
+打包完成后会得到`target`目录
+- 若修改了`application.properties`，需要重新打包并运行
 
 #### 6 运行
-nohup运行得到的jar
+
+运行得到的jar
 ```Bash
 cd target/
 nohup java -jar supply-chain-demo-0.0.1-SNAPSHOT.jar &
@@ -298,7 +301,7 @@ tail -f logs/log/supply-chain-demo.log
 ### 4.4 前端代码部署
 前端代码基于VUE编写
 
-#### 修改前端项目配置
+#### 1 修改配置文件
 进入`frontend/supplychain`目录，修改配置文件`vue.config.js`中`proxy`，连接上文的backend后端服务
 
 ```Bash
