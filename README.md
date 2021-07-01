@@ -79,10 +79,55 @@ FISCO BCOS Supply Chain Payment Settlement Demo created by Shanghai JiuYu Softwa
 ### 4.2 依赖安装
 
 #### maven安装
+```Bash
+# 下载maven包
+wget https://mirrors.bfsu.edu.cn/apache/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz
+# 解压
+tar -zxvf apache-maven-3.8.1-bin.tar.gz
+# 重命名
+mv apache-maven-3.8.1-bin maven
+# 查看当前路径
+cd maven/
+pwd
+	/data/home/webase/maven
+
+# 配置mvn环境变量
+vi /etc/profile 
+
+	export MAVEN_HOME=/data/home/webase/maven
+	export PATH=$PATH:$MAVEN_HOME/bin
+
+# 更新环境变量
+source /etc/profile 
+# 检查mvn命令，正常输出版本号则安装成功
+mvn -v
+```
 
 #### npm安装
+```Bash
+# 下载node包
+wget https://npm.taobao.org/mirrors/node/v10.16.2/node-v10.16.2-linux-x64.tar.gz
+# 解压
+tar -zxvf node-v10.16.2-linux-x64.tar.gz
+# 重命名
+mv node-v10.16.2-linux-x64 node
+# 查看路径
+cd node/
+pwd
+	/data/home/webase/node
 
+# 配置node环境变量
+vi /etc/profile 
 
+	export NODE_HOME=/data/home/webase/node
+	export PATH=$PATH:$NODE_HOME/bin
+
+# 更新环境变量
+source /etc/profile 
+
+# 检查npm命令，正常输出版本号则安装成功
+npm -v
+```
 
 #### mysql创建数据库
 
