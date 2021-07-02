@@ -16,7 +16,7 @@ public class ReservedMoneyBO implements Serializable{
 	 */
 	private static final long serialVersionUID = -9169066551835613134L;
 	
-	private Integer participaterId;
+	private String participaterId;
 	
 	private String userAddress;
 	
@@ -52,11 +52,11 @@ public class ReservedMoneyBO implements Serializable{
 		this.orgName = orgName;
 	}
 
-	public Integer getParticipaterId() {
+	public String getParticipaterId() {
 		return participaterId;
 	}
 
-	public void setParticipaterId(Integer participaterId) {
+	public void setParticipaterId(String participaterId) {
 		this.participaterId = participaterId;
 	}
 

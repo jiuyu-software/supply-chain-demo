@@ -22,7 +22,8 @@
     </select>
     
     <select id="queryByParticipaterId" parameterType="java.lang.String" resultType="com.jiuyv.supplychain.entity.EvidenceEntity">
-    	SELECT * FROM evidence t WHERE JSON_CONTAINS(t.`owners`,#{participaterId})
+    	<!-- SELECT * FROM evidence t WHERE JSON_CONTAINS(t.`owners`,#{participaterId}) -->
+    	select * from evidence t WHERE t.`owners` like concat('%',#{participaterId},'%')
     </select>
 
 

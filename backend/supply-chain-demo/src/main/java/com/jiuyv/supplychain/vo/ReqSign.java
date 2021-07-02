@@ -18,27 +18,27 @@ public class ReqSign implements Serializable{
 	/**
 	 * 签名人id
 	 */
-	private Integer participaterId;
+	private String participaterId;
 	/**
 	 * 链条id
 	 */
 	private Integer chainId;
 	
-	private Integer userId;
+	private String userId;
 	
-	public Integer getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Integer userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
-	public Integer getParticipaterId() {
+	public String getParticipaterId() {
 		return participaterId;
 	}
 
-	public void setParticipaterId(Integer participaterId) {
+	public void setParticipaterId(String participaterId) {
 		this.participaterId = participaterId;
 	}
 

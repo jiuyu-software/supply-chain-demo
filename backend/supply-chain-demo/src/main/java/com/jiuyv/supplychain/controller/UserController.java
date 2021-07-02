@@ -29,17 +29,17 @@ public class UserController {
     private UserService userService;
     
     @PostMapping("/register")
-    public R register(@RequestBody RegisterVO registerVO){
+    public R register(@RequestBody RegisterVO registerVO) throws Exception{
     	return userService.register(registerVO);
     }
     
     @PostMapping("/login")
-    public R login(@RequestBody LoginVO loginVO){
+    public R login(@RequestBody LoginVO loginVO) throws Exception{
     	return userService.login(loginVO);
     }
     
     @GetMapping("/{userId}")
-    public R getUserInfo(@PathVariable("userId") Integer userId){
+    public R getUserInfo(@PathVariable("userId") String userId){
     	return userService.getUserInfo(userId);
     }
     

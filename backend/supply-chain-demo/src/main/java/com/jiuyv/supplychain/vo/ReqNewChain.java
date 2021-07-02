@@ -19,7 +19,7 @@ public class ReqNewChain implements Serializable{
 	/**
 	 * 用户id
 	 */
-	private Integer userId;
+	private String userId;
 	/**
 	 * 链名称
 	 */
@@ -33,11 +33,11 @@ public class ReqNewChain implements Serializable{
 	 */
 	private List<ReqChainItem> itemList;
 	
-	public Integer getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Integer userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 

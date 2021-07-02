@@ -20,8 +20,8 @@ public class UserEntity implements Serializable {
 	/**
 	 * 主键id
 	 */
-	@TableId(value = "id", type = IdType.AUTO)
-	private Integer id;
+	@TableId(value = "id", type = IdType.INPUT)
+	private String id;
 	/**
 	 * 用户名称
 	 */
@@ -41,12 +41,13 @@ public class UserEntity implements Serializable {
 	/**
 	 * 参与者id
 	 */
-	private Integer participaterId;
+	private String participaterId;
 	
-	public Integer getId() {
+	
+	public String getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getUsername() {
@@ -73,13 +74,12 @@ public class UserEntity implements Serializable {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-	public Integer getParticipaterId() {
+	public String getParticipaterId() {
 		return participaterId;
 	}
-	public void setParticipaterId(Integer participaterId) {
+	public void setParticipaterId(String participaterId) {
 		this.participaterId = participaterId;
 	}
-	
 	
 
 }

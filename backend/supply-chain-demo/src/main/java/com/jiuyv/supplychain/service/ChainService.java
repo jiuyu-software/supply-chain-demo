@@ -27,14 +27,14 @@ public interface ChainService extends IService<ChainEntity> {
 	 * @param userId
 	 * @return
 	 */
-	R getIndexNewInfo(Integer userId);
+	R getIndexNewInfo(String userId);
 	
 	/**
 	 * 获取登录成功后参与的链信息
 	 * @param userId
 	 * @return
 	 */
-	R getIndexJoinInfo(Integer userId);
+	R getIndexJoinInfo(String userId);
 	
 	/**
 	 * 校验供应商验签
@@ -47,7 +47,7 @@ public interface ChainService extends IService<ChainEntity> {
 	 * @param userId
 	 * @return
 	 */
-	R getChainInfoByUserId(Integer userId);
+	R getChainInfoByUserId(String userId);
 	
 	/**
 	 * 签名

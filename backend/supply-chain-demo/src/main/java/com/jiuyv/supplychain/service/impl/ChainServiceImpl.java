@@ -133,7 +133,7 @@ public class ChainServiceImpl extends ServiceImpl<ChainDao, ChainEntity> impleme
 		// 建链需签名各供应方
 		List<String> participaterAddrs = new ArrayList<String>();
 		// 已签名各供应方
-		List<Integer> signedParticipaterIds = new ArrayList<Integer>();
+		List<String> signedParticipaterIds = new ArrayList<String>();
 		Date date = Date.from(Instant.now());
 		ParticipaterEntity participaterEntity = participaterDao.queryByUserId(reqNewChain.getUserId());
 		// 1.落地chain表
@@ -151,7 +151,7 @@ public class ChainServiceImpl extends ServiceImpl<ChainDao, ChainEntity> impleme
 		Map<String,Integer> evidenceValMap = new HashMap<>();
 		
 		for(ReqChainItem reqChainItem : itemList){
-			Integer participaterId = reqChainItem.getParticipaterId();
+			String participaterId = reqChainItem.getParticipaterId();
 			ItemEntity entity1 = new ItemEntity();
 			entity1.setChainId(entity.getId());
 			entity1.setId(reqChainItem.getItemId());
@@ -163,7 +163,7 @@ public class ChainServiceImpl extends ServiceImpl<ChainDao, ChainEntity> impleme
 			entity1.setPortion(reqChainItem.getPortion());
 			entity1.setRole(reqChainItem.getRole());
 			// 如果建链方跟供应方是同一人默认是签名的
-			if(participaterEntity.getId() == participaterId){
+			if(participaterEntity.getId().equals(participaterId)){
 				entity1.setIsSigned(SignFlagEnum.SIGNED.getSignFlag());
 				signedParticipaterIds.add(participaterId);
 			}else{
@@ -176,8 +176,8 @@ public class ChainServiceImpl extends ServiceImpl<ChainDao, ChainEntity> impleme
 		}
 		// 3.1 调用webase-front 部署合约方法
 		// 获取所有参与方链上地址
-		List<Integer> participaterIds = itemList.stream().filter(x->x!=null).map(x->x.getParticipaterId()).collect(Collectors.toList());
-		for(Integer participaterId:participaterIds){
+		List<String> participaterIds = itemList.stream().filter(x->x!=null).map(x->x.getParticipaterId()).collect(Collectors.toList());
+		for(String participaterId:participaterIds){
 			ParticipaterEntity dbParticipaterEntity = participaterDao.selectById(participaterId);
 			participaterAddrs.add(dbParticipaterEntity.getUserAddress());
 		}
@@ -256,7 +256,7 @@ public class ChainServiceImpl extends ServiceImpl<ChainDao, ChainEntity> impleme
 	}
 
 	@Override
-	public R getIndexNewInfo(Integer userId) {
+	public R getIndexNewInfo(String userId) {
 		ParticipaterEntity poarticipaterEntity = participaterDao.queryByUserId(userId);
 		List<IndexChainResp> respList = new ArrayList<IndexChainResp>();
 		List<ChainEntity> chainList =  chainDao.queryByUserId(userId);
@@ -289,10 +289,10 @@ public class ChainServiceImpl extends ServiceImpl<ChainDao, ChainEntity> impleme
 		return R.ok(respList);
 	}
 	@Override
-	public R getIndexJoinInfo(Integer userId) {
+	public R getIndexJoinInfo(String userId) {
 		ParticipaterEntity poarticipaterEntity = participaterDao.queryByUserId(userId);
 		List<IndexChainResp> respList = new ArrayList<IndexChainResp>();
-		List<EvidenceEntity> dbEvidences =  evidenceDao.queryByParticipaterId(String.valueOf(poarticipaterEntity.getId()));
+		List<EvidenceEntity> dbEvidences =  evidenceDao.queryByParticipaterId(poarticipaterEntity.getId());
 		for(EvidenceEntity evidenceEntity : dbEvidences){
 			IndexChainResp indexChainResp = new IndexChainResp();
 			indexChainResp.setEvidenceKey(evidenceEntity.getEvidenceKey());
@@ -334,8 +334,8 @@ public class ChainServiceImpl extends ServiceImpl<ChainDao, ChainEntity> impleme
 			needSignOrgNames.add(dbEntity.getOrgName());
 		}
 		String signers = dbEvidence.getSigners();
-		List<Integer> signedparticipaterIds = com.alibaba.fastjson.JSONArray.parseArray(signers, Integer.class);
-		for(Integer id : signedparticipaterIds){
+		List<String> signedparticipaterIds = com.alibaba.fastjson.JSONArray.parseArray(signers, String.class);
+		for(String id : signedparticipaterIds){
 			ParticipaterEntity dbEntity = participaterDao.selectById(id);
 			signedOrgNames.add(dbEntity.getOrgName());
 		}
@@ -347,7 +347,7 @@ public class ChainServiceImpl extends ServiceImpl<ChainDao, ChainEntity> impleme
 		return R.ok(res);
 	}
 	@Override
-	public R getChainInfoByUserId(Integer userId) {
+	public R getChainInfoByUserId(String userId) {
 		// 获取自己建的链
 		List<ChainEntity> chainList =  chainDao.queryByUserId(userId);
 		Set<ResSignList> resSignLists = new HashSet<ResSignList>();
@@ -379,15 +379,15 @@ public class ChainServiceImpl extends ServiceImpl<ChainDao, ChainEntity> impleme
 	public R sign(ReqSign reqSign) {
 		Date date = Date.from(Instant.now());
 		// 根据userId
-		Integer participaterId = reqSign.getParticipaterId();
+		String participaterId = reqSign.getParticipaterId();
 		// 1.check 已加签的不需要重复加签
 		ParticipaterEntity dbParticipaterEntity = participaterDao.selectById(participaterId);
 		ContractEntity dbContract = contractDao.queryByChainId(reqSign.getChainId());
 		EvidenceEntity dbEvidence = evidenceDao.queryByContractId(dbContract.getId());
 		String owners = dbEvidence.getOwners();
-		List<Integer> ownerparticipaterIds = com.alibaba.fastjson.JSONArray.parseArray(owners, Integer.class);
+		List<String> ownerparticipaterIds = com.alibaba.fastjson.JSONArray.parseArray(owners, String.class);
 		String signers = dbEvidence.getSigners();
-		List<Integer> signedparticipaterIds = com.alibaba.fastjson.JSONArray.parseArray(signers, Integer.class);
+		List<String> signedparticipaterIds = com.alibaba.fastjson.JSONArray.parseArray(signers, String.class);
 		if(ownerparticipaterIds.contains(participaterId)&&signedparticipaterIds.contains(participaterId)){
 			return R.error("用户已签名，无须重复加签");
 		}
@@ -430,7 +430,7 @@ public class ChainServiceImpl extends ServiceImpl<ChainDao, ChainEntity> impleme
 		txIds.add(resBO.getTransactionHash());
 		dbEvidenceEntity.setTxId(JSONUtil.toJsonStr(txIds));
 		JSONArray signerArray = JSONUtil.parseArray(dbEvidence.getSigners());
-		List<Integer> signerList = JSONUtil.toList(signerArray, Integer.class);
+		List<String> signerList = JSONUtil.toList(signerArray, String.class);
 		signerList.add(participaterId);
 		dbEvidenceEntity.setSigners(JSONUtil.toJsonStr(signerList));
 		evidenceDao.updateById(dbEvidenceEntity);
@@ -551,7 +551,7 @@ public class ChainServiceImpl extends ServiceImpl<ChainDao, ChainEntity> impleme
 		ReqContractAddressSave reqContractAddressSave = new ReqContractAddressSave();
         reqContractAddressSave.setGroupId(1);
         reqContractAddressSave.setContractName(CONTRACT_NAME_EVIDENCE_FACTORY);
-        reqContractAddressSave.setContractPath(username+"_"+DateUtils.dateTimeNow());
+        reqContractAddressSave.setContractPath(GlobalConstant.APP_PREIX+username+"_"+DateUtils.dateTimeNow());
         reqContractAddressSave.setContractVersion(CONTRACT_VERSION);
         reqContractAddressSave.setContractAddress(contractAddr);
         LOGGER.info("调用WebaseSdk AddressSave接口,请求参数:>>{}",JSONUtil.toJsonStr(reqContractAddressSave));

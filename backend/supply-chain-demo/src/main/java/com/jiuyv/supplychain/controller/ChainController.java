@@ -31,11 +31,11 @@ public class ChainController {
     	return chainService.newChain(reqNewChain);
     }
     @GetMapping("/{userId}")
-    public R getIndexNewInfo(@PathVariable("userId") Integer userId){
+    public R getIndexNewInfo(@PathVariable("userId") String userId){
     	return chainService.getIndexNewInfo(userId);
     }
     @GetMapping("/join/{userId}")
-    public R getIndexJoinInfo(@PathVariable("userId") Integer userId){
+    public R getIndexJoinInfo(@PathVariable("userId") String userId){
     	return chainService.getIndexJoinInfo(userId);
     }
     @GetMapping("/checkSign/{chainId}")
@@ -43,7 +43,7 @@ public class ChainController {
     	return chainService.checkSignStatus(chainId);
     }
     @GetMapping("/getInfo/{userId}")
-    public R getChainInfoByUserId(@PathVariable("userId") Integer userId){
+    public R getChainInfoByUserId(@PathVariable("userId") String userId){
     	return chainService.getChainInfoByUserId(userId);
     }
     @PostMapping("/sign")

@@ -19,21 +19,21 @@ public interface UserService extends IService<UserEntity> {
 	 * @param userEntity
 	 * @return
 	 */
-	R register(RegisterVO registerVO);
+	R register(RegisterVO registerVO) throws Exception;
 	
 	/**
 	 * 登录
 	 * @param loginVO
 	 * @return
 	 */
-	R login(LoginVO loginVO);
+	R login(LoginVO loginVO) throws Exception;
 	
 	/**
 	 * 获取用户信息
 	 * @param userId
 	 * @return
 	 */
-	R getUserInfo(Integer userId);
+	R getUserInfo(String userId);
 	
 	/**
 	 * 登出

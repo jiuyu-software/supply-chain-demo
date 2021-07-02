@@ -14,7 +14,7 @@
         <result property="userId" column="user_Id"/>
     </resultMap>
     
-    <select id="queryByUserId" parameterType="java.lang.Integer" resultType="com.jiuyv.supplychain.entity.ChainEntity">
+    <select id="queryByUserId" parameterType="java.lang.String" resultType="com.jiuyv.supplychain.entity.ChainEntity">
     	select * from chain where user_id = #{userId}
     </select>
     
