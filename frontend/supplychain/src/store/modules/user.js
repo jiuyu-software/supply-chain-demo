@@ -6,7 +6,7 @@ import {
   setToken,
   getUserId,
   setUserId,
-  removeToken
+  removeToken,
 } from "@/utils/auth";
 import { resetRouter } from "@/router";
 
@@ -16,14 +16,14 @@ const getDefaultState = () => {
     name: "",
     avatar: "",
     userid: getUserId(),
-    participaterid: getParticipaterId()
+    participaterid: getParticipaterId(),
   };
 };
 
 const state = getDefaultState();
 
 const mutations = {
-  RESET_STATE: state => {
+  RESET_STATE: (state) => {
     Object.assign(state, getDefaultState());
   },
   SET_TOKEN: (state, token) => {
@@ -40,7 +40,7 @@ const mutations = {
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar;
-  }
+  },
 };
 
 const actions = {
@@ -50,9 +50,9 @@ const actions = {
     return new Promise((resolve, reject) => {
       login({
         username: username.trim(),
-        encryptedPassword: encryptedPassword.trim()
+        encryptedPassword: encryptedPassword.trim(),
       })
-        .then(response => {
+        .then((response) => {
           const { data } = response;
           commit("SET_USERID", data.userId);
           commit("SET_PARTID", data.participaterId);
@@ -60,7 +60,7 @@ const actions = {
           setParticipaterId(data.participaterId);
           resolve();
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -70,7 +70,7 @@ const actions = {
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       getInfo(state.token)
-        .then(response => {
+        .then((response) => {
           const { data } = response;
 
           if (!data) {
@@ -83,7 +83,7 @@ const actions = {
           commit("SET_AVATAR", avatar);
           resolve(data);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -99,7 +99,7 @@ const actions = {
           commit("RESET_STATE");
           resolve();
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -107,17 +107,17 @@ const actions = {
 
   // remove token
   resetToken({ commit }) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       removeToken(); // must remove  token  first
       commit("RESET_STATE");
       resolve();
     });
-  }
+  },
 };
 
 export default {
   namespaced: true,
   state,
   mutations,
-  actions
+  actions,
 };
