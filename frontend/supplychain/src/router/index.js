@@ -95,7 +95,7 @@ export const constantRoutes = [
     children: [
       {
         path: "index",
-        name: "pay",
+        name: "usercenter",
         component: () => import("@/views/user/index"),
         meta: { title: "个人中心", icon: "user" },
       },
