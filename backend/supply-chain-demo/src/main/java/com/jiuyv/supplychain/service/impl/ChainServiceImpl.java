@@ -328,8 +328,8 @@ public class ChainServiceImpl extends ServiceImpl<ChainDao, ChainEntity> impleme
 		ContractEntity dbChain = contractDao.queryByChainId(chainId);
 		EvidenceEntity dbEvidence = evidenceDao.queryByContractId(dbChain.getId());
 		String owners = dbEvidence.getOwners();
-		List<Integer> ownerparticipaterIds = com.alibaba.fastjson.JSONArray.parseArray(owners, Integer.class);
-		for(Integer id : ownerparticipaterIds){
+		List<String> ownerparticipaterIds = com.alibaba.fastjson.JSONArray.parseArray(owners, String.class);
+		for(String id : ownerparticipaterIds){
 			ParticipaterEntity dbEntity = participaterDao.selectById(id);
 			needSignOrgNames.add(dbEntity.getOrgName());
 		}
