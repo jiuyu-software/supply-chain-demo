@@ -30,3 +30,4 @@
 *.zip  
 *.via
 *.tmp
+/target/

@@ -30,13 +30,13 @@ public class AppRegisterApplicationRunner implements ApplicationRunner{
 	@Value("${webase.node.mgr.isTransferEncrypt}")
 	private Boolean isTransferEncrypt;
 	
-	@Value("${webase.node.mgr.appIp}")
+	@Value("${supplychain.node.mgr.appIp}")
 	private String appIp;
 	
-	@Value("${webase.node.mgr.appPort}")
+	@Value("${supplychain.node.mgr.appPort}")
 	private Integer appPort;
 	
-	@Value("${webase.node.mgr.appLink}")
+	@Value("${supplychain.node.mgr.appLink}")
 	private String appLink;
 
 	@Override
