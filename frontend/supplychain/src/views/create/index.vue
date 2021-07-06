@@ -167,7 +167,7 @@ export default {
 
           if (totalRatio !== 100) {
             this.$message({
-              message: "请输入正确的份额",
+              message: "分成比例总和应为100%",
               type: "warning",
             });
           } else {

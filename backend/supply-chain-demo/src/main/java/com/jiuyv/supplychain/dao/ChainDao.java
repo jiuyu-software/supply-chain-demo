@@ -22,7 +22,7 @@ public interface ChainDao extends BaseMapper<ChainEntity> {
 	 * @param userId
 	 * @return
 	 */
-	List<ChainEntity> queryByUserId(@Param("userId") Integer userId);
+	List<ChainEntity> queryByUserId(@Param("userId") String userId);
 
 	/**
 	 * 统计总链路数

@@ -20,8 +20,8 @@ public class ParticipaterEntity implements Serializable {
 	/**
 	 * 主键id
 	 */
-	@TableId(value = "id", type = IdType.AUTO)
-	private Integer id;
+	@TableId(value = "id", type = IdType.INPUT)
+	private String id;
 	/**
 	 * 组织名称
 	 */
@@ -45,7 +45,7 @@ public class ParticipaterEntity implements Serializable {
 	/**
 	 * 用户id
 	 */
-	private Integer userId;
+	private String userId;
 	/**
 	 * 用户余额
 	 */
@@ -77,10 +77,10 @@ public class ParticipaterEntity implements Serializable {
 	public void setUserAddress(String userAddress) {
 		this.userAddress = userAddress;
 	}
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getOrgName() {
@@ -113,10 +113,10 @@ public class ParticipaterEntity implements Serializable {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-	public Integer getUserId() {
+	public String getUserId() {
 		return userId;
 	}
-	public void setUserId(Integer userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 	

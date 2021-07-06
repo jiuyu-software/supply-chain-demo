@@ -38,7 +38,7 @@ public class ReqChainItem implements Serializable{
 	/**
 	 * 参与方id
 	 */
-	private Integer participaterId;
+	private String participaterId;
 	
 
 	public String getLastItemId() {
@@ -83,11 +83,11 @@ public class ReqChainItem implements Serializable{
 		this.portion = portion;
 	}
 
-	public Integer getParticipaterId() {
+	public String getParticipaterId() {
 		return participaterId;
 	}
 
-	public void setParticipaterId(Integer participaterId) {
+	public void setParticipaterId(String participaterId) {
 		this.participaterId = participaterId;
 	}
 	

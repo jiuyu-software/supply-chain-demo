@@ -21,5 +21,7 @@ public class GlobalConstant {
 	public static final String ERC20_CONTRACT_TEMPLATE = "ERC20";
 	
 	public static final String EVIDENCE_CONTRACT_TEMPLATE = "Evidence";
+	
+	public static final String APP_PREIX = "supplychain_";
 
 }

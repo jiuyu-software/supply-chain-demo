@@ -18,29 +18,27 @@ public class LoginResp implements Serializable{
 	/**
 	 * 用户id
 	 */
-	private Integer userId;
+	private String userId;
 	
 	/**
 	 * 参与者id
 	 */
-	private Integer participaterId;
-	
-	
+	private String participaterId;
 
-	public Integer getParticipaterId() {
-		return participaterId;
-	}
-
-	public void setParticipaterId(Integer participaterId) {
-		this.participaterId = participaterId;
-	}
-
-	public Integer getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Integer userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public String getParticipaterId() {
+		return participaterId;
+	}
+
+	public void setParticipaterId(String participaterId) {
+		this.participaterId = participaterId;
 	}
 	
 	

@@ -28,6 +28,6 @@ public interface ParticipaterDao extends BaseMapper<ParticipaterEntity> {
 	 * @param userId
 	 * @return
 	 */
-	ParticipaterEntity queryByUserId(@Param("userId") Integer userId);
+	ParticipaterEntity queryByUserId(@Param("userId") String userId);
 	
 }

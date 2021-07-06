@@ -38,7 +38,7 @@ public class ItemEntity implements Serializable {
 	/**
 	 * 参与者id
 	 */
-	private Integer participaterId;
+	private String participaterId;
 	/**
 	 * 插入时间
 	 */
@@ -85,10 +85,10 @@ public class ItemEntity implements Serializable {
 	public void setLevelOnChain(Integer levelOnChain) {
 		this.levelOnChain = levelOnChain;
 	}
-	public Integer getParticipaterId() {
+	public String getParticipaterId() {
 		return participaterId;
 	}
-	public void setParticipaterId(Integer participaterId) {
+	public void setParticipaterId(String participaterId) {
 		this.participaterId = participaterId;
 	}
 	public Date getInsertedAt() {

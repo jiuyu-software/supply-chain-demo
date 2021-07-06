@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import cn.hutool.core.lang.UUID;
+
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jiuyv.supplychain.common.GlobalConstant;
 import com.jiuyv.supplychain.common.R;
@@ -20,6 +22,7 @@ import com.jiuyv.supplychain.entity.ParticipaterEntity;
 import com.jiuyv.supplychain.entity.UserEntity;
 import com.jiuyv.supplychain.service.UserService;
 import com.jiuyv.supplychain.util.BizUtils;
+import com.jiuyv.supplychain.util.MD5Utils;
 import com.jiuyv.supplychain.vo.LoginResp;
 import com.jiuyv.supplychain.vo.LoginVO;
 import com.jiuyv.supplychain.vo.RegisterVO;
@@ -67,15 +70,17 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
 	
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public R register(RegisterVO registerVO) {
+	public R register(RegisterVO registerVO) throws Exception{
 		// 1.先落地user
+		String userId = UUID.fastUUID().toString().replaceAll("-", "");
 		Date date = Date.from(Instant.now());
 		UserEntity userEntity = new UserEntity();
 		userEntity.setInsertedAt(date);
 		userEntity.setUpdatedAt(date);
 		userEntity.setUsername(registerVO.getUsername());
 		// 密码加密
-		userEntity.setEncryptedPassword(registerVO.getPassword());
+		userEntity.setEncryptedPassword(MD5Utils.getMD5Str(registerVO.getPassword()));
+		userEntity.setId(userId);
 		userDao.insert(userEntity);
 		
 		// 调用WeBASE-APP-SDK
@@ -83,13 +88,14 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         reqNewUser.setGroupId(1);
         reqNewUser.setUserName(userEntity.getUsername());
         reqNewUser.setAccount("admin");
-        reqNewUser.setDescription(userEntity.getUsername());
+        reqNewUser.setDescription(GlobalConstant.APP_PREIX+userEntity.getUsername());
         HttpConfig httpConfig = new HttpConfig(30, 30, 30);
         appClient = new AppClient(url, appKey, appSecret, isTransferEncrypt, httpConfig);
         RspUserInfo resp = appClient.newUser(reqNewUser);
 		
 		// 3.落地 participater 表
 		ParticipaterEntity entity = new ParticipaterEntity();
+		entity.setId(UUID.fastUUID().toString().replaceAll("-", ""));
 		entity.setBalance(0L);
 		entity.setOrgDescription(registerVO.getOrgDescription());
 		entity.setDid(GlobalConstant.DID_WEID_PREFIX+BizUtils.subStrAddress(resp.getAddress()));
@@ -97,7 +103,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
 		entity.setOrgName(registerVO.getOrgName());
 		entity.setNameOnWebase(resp.getUserName());
 		entity.setUpdatedAt(date);
-		entity.setUserId(userEntity.getId());
+		entity.setUserId(userId);
 		entity.setUserAddress(resp.getAddress());
 		entity.setSignUserId(resp.getSignUserId());
 		participaterDao.insert(entity);
@@ -110,7 +116,8 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
 	}
 
 	@Override
-	public R login(LoginVO loginVO) {
+	public R login(LoginVO loginVO) throws Exception {
+		loginVO.setEncryptedPassword(MD5Utils.getMD5Str(loginVO.getEncryptedPassword()));
 		UserEntity user = userDao.queryUserInfo(loginVO);
 		if(null != user){
 			LoginResp loginResp = new LoginResp();
@@ -123,7 +130,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
 		
 	}
 	@Override
-	public R getUserInfo(Integer userId) {
+	public R getUserInfo(String userId) {
 		ParticipaterEntity entity = participaterDao.queryByUserId(userId);
 		return R.ok(entity);
 	}

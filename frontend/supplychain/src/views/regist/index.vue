@@ -74,7 +74,7 @@
       </el-form>
     </div>
     <div class="copyright">
-      CopyRight ©2020 Super Supply Chain All Rights Reserved
+      CopyRight © 2021 上海久誉软件系统有限公司
     </div>
   </div>
 </template>

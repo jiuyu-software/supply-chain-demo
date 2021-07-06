@@ -88,7 +88,7 @@ export default {
     },
     handleSigned() {
       const Pid = getParticipaterId();
-      this.form.participaterId = parseInt(Pid);
+      this.form.participaterId = Pid;
       const params = this.form;
       addSign(params).then((res) => {
         if (res.code === 0) {
