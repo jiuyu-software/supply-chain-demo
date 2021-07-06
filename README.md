@@ -233,15 +233,15 @@ webase.node.mgr.appKey=Z5znCSmG
 webase.node.mgr.appSecret=ch8ZT7wpDxpacDGSYQfjTQjWWeV4bTXt
 # 是否加密传输
 webase.node.mgr.isTransferEncrypt=true
-# webase-node-mgr的IP
-webase.node.mgr.appIp=127.0.0.1
 
+# webase-node-mgr的IP
+supplychain.node.mgr.appIp=127.0.0.1
 ### 应用前端访问配置
 # 本案例的前端访问端口
-webase.node.mgr.appPort=9528
+supplychain.node.mgr.appPort=9528
 # 本案例的在浏览器中访问的URL，若浏览器在非同机访问，则访问的是公网IP(以127.0.0.2为例)。使用域名则访问的是域名
 # 需要与下文前端服务的访问IP端口一致
-webase.node.mgr.appLink=https://127.0.0.2:9528
+supplychain.node.mgr.appLink=https://127.0.0.2:9528
 
 
 # erc20 合约初始化用户地址
