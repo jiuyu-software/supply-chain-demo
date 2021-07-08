@@ -206,10 +206,10 @@ npm run dev
     To create a production build, run npm run build.
 ```
 
-至此，前端的运行成功了，我们可以通过在浏览器中访问`http://127.0.0.2:9528`即可访问
+我们可以通过在浏览器中访问`http://127.0.0.2:9528`即可访问
 - **此处浏览器访问的URL和下文后端服务中配置的appLink需保持一致**
 - 如果通过`npm build`构建静态文件 + nginx重定向的方式加载前端，需要修改nginx.conf中访问后端服务的IP端口，并对外暴露9528端口即可。
-
+- 需要部署下文的后端服务后，才可正常操作页面。具体操作步骤可以参考下文的[运行演示](#demo)
 
 ### 4.4 后端代码部署
 后端代码是基于SpringBoot工程
@@ -350,8 +350,10 @@ nohup java -jar supply-chain-demo-0.0.1-SNAPSHOT.jar &
 tail -f logs/log/supply-chain-demo.log
 ```
 
+当我们看到日志持续输出日志时即运行成功，就可以访问上文中部署的前端页面(`{IP}:9528`)进行操作了
 
 ### 4.5 运行演示
+<span id="demo"></span>
 演示新建一条供应链有三级供应商，然后模拟支付分账
 #### 进入首页
 ![image](https://user-images.githubusercontent.com/11324122/123060742-98685500-d43d-11eb-9992-1541a3b849d7.png)
