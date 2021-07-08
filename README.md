@@ -161,7 +161,57 @@ ls
 └── README.md
 ```
 
-### 4.3 后端代码部署
+
+### 4.4 前端代码部署
+前端代码基于VUE编写
+
+#### 1 修改配置文件
+进入`frontend/supplychain`目录，修改配置文件`vue.config.js`中`proxy`，连接上文的backend后端服务
+
+```Bash
+cd frontend/supplychain
+vi vue.config.js
+```
+
+```Bash
+# 以同机运行为例，后端服务同机运行，IP为127.0.0.1，端口为8080
+# 修改proxy.target的值为对应的IP:PORT
+    proxy: {
+      // change xxx-api/login => mock/login
+      // detail: https://cli.vuejs.org/config/#devserver-proxy
+      [process.env.VUE_APP_BASE_API]: {
+//        target: "http://**.**.**.**:**",
+        target: "http://127.0.0.1:8080",
+        changeOrigin: true,
+        pathRewrite: {
+          ["^" + process.env.VUE_APP_BASE_API]: "",
+        },
+      },
+    },
+
+```
+
+#### 2 编译并运行
+```Bash
+# 安装前端依赖包
+npm install
+# 运行
+npm run dev
+# 运行成功后显示
+  App running at:
+    - Local:   http://localhost:9528 
+    - Network: http://127.0.0.2:9528 # 127.0.0.2为内网或公网IP
+
+    Note that the development build is not optimized.
+    To create a production build, run npm run build.
+```
+
+至此，前端的运行成功了，我们可以通过在浏览器中访问`http://127.0.0.2:9528`即可访问
+- **此处浏览器访问的URL和下文后端服务中配置的appLink需保持一致**
+- 如果通过`npm build`构建静态文件 + nginx重定向的方式加载前端，需要修改nginx.conf中访问后端服务的IP端口，并对外暴露9528端口即可。
+
+
+### 4.4 后端代码部署
 后端代码是基于SpringBoot工程
 
 #### 1 执行sql脚本
@@ -220,6 +270,8 @@ spring.datasource.hikari.pool-name=DateSourceHikariCP
 spring.datasource.hikari.max-lifetime=1800000
 spring.datasource.hikari.connection-test-query=SELECT 1
 
+
+### 后端服务所连接的WeBASE子系统服务的配置
 # webase前置服务 1.2. 合约部署接口（结合WeBASE-Sign）
 webase-front.contract.deploy.url=http://127.0.0.1:5002/WeBASE-Front/contract/deployWithSign
 # webase前置服务 5.1. 交易处理接口（结合WeBASE-Sign）
@@ -234,12 +286,12 @@ webase.node.mgr.appSecret=ch8ZT7wpDxpacDGSYQfjTQjWWeV4bTXt
 # 是否加密传输
 webase.node.mgr.isTransferEncrypt=true
 
-# webase-node-mgr的IP
+### 对应上文前端服务的配置，需要确保前端服务存活（正在运行）
+# 本案例的前端访问的IP，同机访问可以使用127.0.0.1，非同机访问应为内网或公网IP
 supplychain.node.mgr.appIp=127.0.0.1
-### 应用前端访问配置
 # 本案例的前端访问端口
 supplychain.node.mgr.appPort=9528
-# 本案例的在浏览器中访问的URL，若浏览器在非同机访问，则访问的是公网IP(以127.0.0.2为例)。使用域名则访问的是域名
+# 本案例的在浏览器中访问的URL，若浏览器在非同机访问，则访问的是内网或公网IP(以127.0.0.2为例)。使用域名则访问的是域名。同机访问前端则可以使用127.0.0.1
 # 需要与下文前端服务的访问IP端口一致
 supplychain.node.mgr.appLink=https://127.0.0.2:9528
 
@@ -297,54 +349,6 @@ nohup java -jar supply-chain-demo-0.0.1-SNAPSHOT.jar &
 ```Bash
 tail -f logs/log/supply-chain-demo.log
 ```
-
-### 4.4 前端代码部署
-前端代码基于VUE编写
-
-#### 1 修改配置文件
-进入`frontend/supplychain`目录，修改配置文件`vue.config.js`中`proxy`，连接上文的backend后端服务
-
-```Bash
-cd frontend/supplychain
-vi vue.config.js
-```
-
-```
-# 以同机运行为例，后端服务为8080端口
-# 修改target的url
-    proxy: {
-      // change xxx-api/login => mock/login
-      // detail: https://cli.vuejs.org/config/#devserver-proxy
-      [process.env.VUE_APP_BASE_API]: {
-//        target: "http://**.**.**.**:**",
-        target: "http://127.0.0.1:8080",
-        changeOrigin: true,
-        pathRewrite: {
-          ["^" + process.env.VUE_APP_BASE_API]: "",
-        },
-      },
-    },
-
-```
-
-#### 2 编译并运行
-```Bash
-# 安装前端依赖包
-npm install
-# 运行
-npm run dev
-# 运行成功后显示
-  App running at:
-    - Local:   http://localhost:9528 
-    - Network: http://127.0.0.2:9528 # 127.0.0.2为内网或公网IP
-
-    Note that the development build is not optimized.
-    To create a production build, run npm run build.
-```
-
-至此，前端的运行成功了，我们可以通过在浏览器中访问`http://127.0.0.2:9528`即可访问
-- **此处浏览器访问的URL和上文后端服务中配置的appLink需保持一致**
-- 如果通过`npm build` + nginx重定向的方式加载前端，需要修改nginx.conf中访问后端服务的IP端口，并对外暴露9528端口即可。
 
 
 ### 4.5 运行演示
