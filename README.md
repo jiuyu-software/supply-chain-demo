@@ -292,7 +292,7 @@ supplychain.node.mgr.appIp=127.0.0.1
 # 本案例的前端访问端口
 supplychain.node.mgr.appPort=9528
 # 本案例的在浏览器中访问的URL，若浏览器在非同机访问，则访问的是内网或公网IP(以127.0.0.2为例)。使用域名则访问的是域名。同机访问前端则可以使用127.0.0.1
-# 需要与下文前端服务的访问IP端口一致
+# 需要与上文文前端服务的访问IP端口一致
 supplychain.node.mgr.appLink=https://127.0.0.2:9528
 
 
