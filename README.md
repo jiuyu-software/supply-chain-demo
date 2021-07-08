@@ -254,10 +254,13 @@ vi application.properties
 
 ```Bash
 spring.application.name=supply-chain-demo
-server.port=8080  # 服务默认端口，若修改，需要在前端访问后端时对应修改
+# 服务默认端口，若修改，需要在前端访问后端时对应修改
+server.port=8080  
 
-spring.datasource.username=dbUserName     # mysql用户
-spring.datasource.password=dbPassword     # mysql密码
+# mysql用户
+spring.datasource.username=dbUserName     
+# mysql密码
+spring.datasource.password=dbPassword     
 spring.datasource.url=jdbc:mysql://127.0.0.1:3306/supplychain 
 spring.datasource.type=com.zaxxer.hikari.HikariDataSource
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
