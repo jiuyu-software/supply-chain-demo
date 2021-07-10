@@ -357,6 +357,12 @@ tail -f logs/log/supply-chain-demo.log
 
 ### 4.5 运行演示
 <span id="demo"></span>
+演示地址: 基于区块链的供应链支付结算管理平台： http://www.icoding721.com/ 
+
+三个账户密码分别为(Alice/123456,Bob/123456,Tom/123456)
+
+WeBASE管理平台：http://supplychain.icoding721.com:5000/  账密：**admin/Abcd12345**
+
 演示新建一条供应链有三级供应商，然后模拟支付分账
 #### 进入首页
 ![image](https://user-images.githubusercontent.com/11324122/123060742-98685500-d43d-11eb-9992-1541a3b849d7.png)
