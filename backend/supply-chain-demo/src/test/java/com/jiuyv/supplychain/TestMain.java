@@ -24,14 +24,14 @@ public class TestMain {
 		ReqNewChain reqNewChain = new ReqNewChain();
 		reqNewChain.setDesc("小米手机供应链0429");
 		reqNewChain.setTitle("小米手机供应链0429");
-		reqNewChain.setUserId(16);
+		//reqNewChain.setUserId(16);
 		
 		List<ReqChainItem> itemList = new ArrayList<ReqChainItem>();
 		ReqChainItem item1 = new ReqChainItem();
 		item1.setItemId(UUID.fastUUID().toString().replace("-", ""));
 		item1.setLastItemId(null);
 		item1.setLevelOnChain(0);
-		item1.setParticipaterId(38);
+		//item1.setParticipaterId(38);
 		item1.setPortion(30);
 		item1.setRole("供应商1");
 		
@@ -40,7 +40,7 @@ public class TestMain {
 		item2.setItemId(UUID.fastUUID().toString().replace("-", ""));
 		item2.setLastItemId(item1.getItemId());
 		item2.setLevelOnChain(1);
-		item2.setParticipaterId(39);
+		//item2.setParticipaterId(39);
 		item2.setPortion(40);
 		item2.setRole("供应商2");
 		
@@ -48,7 +48,7 @@ public class TestMain {
 		item3.setItemId(UUID.fastUUID().toString().replace("-", ""));
 		item3.setLastItemId(item2.getItemId());
 		item3.setLevelOnChain(2);
-		item3.setParticipaterId(40);
+		//item3.setParticipaterId(40);
 		item3.setPortion(30);
 		item3.setRole("供应商3");
 		
